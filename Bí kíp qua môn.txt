@@ -1,0 +1,53 @@
+MySQl 
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+        </dependency>
+Setting Java
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connectionUrl = "jdbc:mysql://localhost:3306/-------?autoReconnect=true&useSSL=false";
+            con = DriverManager.getConnection(connectionUrl, "root", "1231234");
+
+
+
+
+SQL Server
+Insert ảnh:
+(SELECT * FROM OPENROWSET(BULK 'D:\img\?.jpg', SINGLE_BLOB) AS IMG)
+
+SP update ảnh:
+DECLARE @IMGRESULT NVARCHAR(MAX)= CONCAT(CHAR(39),@AVATAR,CHAR(39))  ---Char(39) là dấu ' để ko bị SQL hiểu là 1 câu bình thường
+DECLARE @ID NVARCHAR(MAX)= CONCAT(CHAR(39),@MASV,CHAR(39))
+DECLARE @IMG NVARCHAR(MAX) = 'UPDATE DBO.STUDENTS SET AVATAR = (SELECT * FROM OPENROWSET(BULK '+ @IMGRESULT+ ', SINGLE_BLOB) AS IMG) WHERE MASV =' + @ID
+EXEC(@IMG)
+
+
+
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.6.10.Final</version>
+</dependency>
+<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>11.1.2.jre11-preview</version>
+</dependency>
+private static final SessionFactory FACTORY;
+
+    static {
+        Configuration conf = new Configuration();
+        Properties prop = new Properties();
+        prop.put(Environment.DIALECT,"org.hibernate.dialect.SQLServerDialect");
+        prop.put(Environment.DRIVER,"com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        prop.put(Environment.URL,"jdbc:sqlserver://PC\\SQLEXPRESS;database=hibernate1;encrypt=true;trustservercertificate=true;");
+        prop.put(Environment.USER,"sa");
+        prop.put(Environment.PASS,"1231234");
+        conf.setProperties(prop);
+        conf.addAnnotatedClass(Produce.class);
+        conf.addAnnotatedClass(Product.class);
+        ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
+        FACTORY = conf.buildSessionFactory(sr);
+    }

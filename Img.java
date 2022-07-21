@@ -28,11 +28,11 @@ import javax.imageio.ImageIO;
  */
 public class Img {
 
-    public static Image resizer(Image img_input, int width, int height) {
+    public static Image resizerImg(Image img_input, int width, int height) {
         return img_input.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
-    public static byte[] img_to_array(Image img_input, String type) {
+    public static byte[] img2ByteArray(Image img_input, String type) {
         BufferedImage bi = new BufferedImage(img_input.getWidth(null), img_input.getHeight(null), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bi.createGraphics();
         g2.drawImage(img_input, 0, 0, null);
@@ -41,11 +41,12 @@ public class Img {
         try {
             ImageIO.write(bi, type, baos);
         } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return baos.toByteArray();
     }
 
-    public static Image create_img_from_byte(byte[] input_data) throws IOException {
+    public static Image createImgFromByteArray(byte[] input_data) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(input_data);
         BufferedImage bi = ImageIO.read(bais);
         return bi.getScaledInstance(bi.getWidth(), bi.getHeight(), Image.SCALE_SMOOTH);
