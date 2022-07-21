@@ -11,7 +11,7 @@ import org.hibernate.service.ServiceRegistry;
  *
  * @author PC
  */
-public class HibernateUtil {
+public class HibernateGetSessionFactory {
 
     private static final SessionFactory FACTORY;
 
